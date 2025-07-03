@@ -1,0 +1,18 @@
+.parking{
+    border: 1px solid black;
+    margin: 20px;
+    height: 500px;
+}
+
+.ent{
+    border: 1px solid black;
+    width: 130px;
+    height: 500px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.entrer{
+    border: 1px solid black;
+    height: 150px;
+}

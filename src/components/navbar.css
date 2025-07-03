@@ -1,0 +1,45 @@
+.navbar-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 5px;
+}
+.navbar {
+  background: linear-gradient(50deg, #274a66, #979298);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px 20px;
+  width: 80%;
+  border-radius: 25px;
+}
+
+.elem2 {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.elem1 {
+  display: flex;
+  align-items: center;
+}
+.elem1 h1 {
+  color: white;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.admin-img {
+  width: 50px;
+  height: 50px;
+}
+
+.logout{
+  color: white;
+  font-size: 20px;
+  text-decoration: none;
+  transition: 0.2s;
+}
+.logout:hover {
+  color: #cdcccc;
+  text-decoration: underline;
+}
