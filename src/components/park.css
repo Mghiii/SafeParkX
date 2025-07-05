@@ -1,18 +1,40 @@
 .parking{
-    border: 1px solid black;
     margin: 20px;
     height: 500px;
+    display: flex;
+    
 }
 
 .ent{
-    border: 1px solid black;
     width: 130px;
     height: 500px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    background-color: gray;
+    border-radius: 25px 0 0 25px;
 }
 .entrer{
-    border: 1px solid black;
     height: 150px;
+    background-color: green;
+    border-radius: 25px 0 0 0 ;
+}
+#et1{
+    border-radius: 0 0 0 25px ;
+}
+.dec{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+}
+.decor{
+    height: 100px;
+    background-color: green;
+}
+.places{
+    height: 400px;
+    border: 1px solid black;
+    background-color: gray;
+    display: grid;
 }

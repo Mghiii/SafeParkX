@@ -10,10 +10,11 @@ export default function Park() {
       <div className="parking">
         <div className="ent">
           <div className="entrer"></div>
-          <div className="entrer"></div>
+          <div className="entrer" id="et1"></div>
         </div>
         <div className="dec">
           <div className="decor"></div>
+          <div className="places"></div>
           <div className="decor"></div>
         </div>
       </div>
