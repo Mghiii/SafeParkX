@@ -9,9 +9,9 @@ export default function Park() {
       </div>
       <div className="parking">
         <div className="ent">
-          <div className="entrer"></div>
-          <i class="bi bi-caret-right"></i>
-          <i class="bi bi-caret-left"></i>
+          <div className="entrer" id="et2"></div>
+          <i class="bi bi-caret-right-fill"></i>{" "}
+          <i class="bi bi-caret-left-fill"></i>{" "}
           <div className="entrer" id="et1"></div>
         </div>
         <div className="dec">

@@ -1,118 +1,154 @@
-.parking{
-    margin: 20px;
-    height: 500px;
-    display: flex;
-    
+.parking {
+  margin: 20px;
+  height: 700px;
+  display: flex;
 }
 
-.ent{
-    width: 130px;
-    height: 500px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    background-color: gray;
-    border-radius: 25px 0 0 25px;
+.ent {
+  width: 137px;
+  height: 700px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: gray;
+  border-radius: 25px 0 0 25px;
 }
-.entrer{
-    height: 150px;
-    background-color: green;
-    border-radius: 25px 0 0 0 ;
+.entrer {
+  height: 150px;
+  background-color: green;
+  border-radius: 25px 0 0 0;
+  position: relative;
 }
-#et1{
-    border-radius: 0 0 0 25px ;
+
+#et1::after {
+  content: "";
+  position: absolute;
+  top: 0%;
+  right: 0;
+  width: 10px;
+  height: 43%;
+  background: white;
+  z-index: 2;
 }
-.dec{
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    width: 100%;
+
+#et1 {
+  border-radius: 0 0 0 25px;
+  position: relative;
+  border-top: 10px white solid;
 }
-.decor{
-    height: 100px;
-    background-color: green;
+
+#et2::after {
+  content: "";
+  position: absolute;
+  top: 56.7%;
+  right: 0;
+  width: 10px;
+  height: 44%;
+  background: white;
+  z-index: 2;
+}
+
+#et2 {
+  border-radius: 25px 0 0 0;
+  position: relative;
+  border-bottom: 10px white solid;
+}
+.dec {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+}
+.decor {
+  height: 100px;
+  background-color: green;
 }
 .places {
-    height: 400px;
-    background-color: gray;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+  height: 600px;
+  background-color: gray;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-top: 10px white solid;
+  border-right: 10px white solid;
+  border-bottom: 10px white solid;
 }
-.frst,.scnd{
-    display: flex;
-    width: 100%;
+.frst,
+.scnd {
+  display: flex;
+  width: 100%;
 }
 .places div div {
-    width: 160px;
-    height: 120px;
-    border-right: 10px solid white;
-    background-color: gray;
-    position: relative;
+  width: 160px;
+  height: 222px;
+  width: 210px;
+  border-right: 10px solid white;
+  background-color: gray;
+  position: relative;
 }
 
 .places .frst div::after {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    left: 100%;
-    transform: translateX(-43%);
-    width: 30%;
-    height: 10px;
-    background: white;
-    border-radius: 2px;
-    z-index: 1;
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 100%;
+  transform: translateX(-43%);
+  width: 30%;
+  height: 10px;
+  background: white;
+  border-radius: 2px;
+  z-index: 1;
 }
 .places .scnd div::after {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    left: 100%;
-    transform: translateX(-43%);
-    width: 30%;
-    height: 10px;
-    bottom: 115px;
-    background: white;
-    border-radius: 2px;
-    z-index: 1;
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 100%;
+  transform: translateX(-43%);
+  width: 30%;
+  height: 10px;
+  bottom: 220px;
+  background: white;
+  border-radius: 2px;
+  z-index: 1;
 }
 
 .places .scnd .place16::after {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    left: 92%;
-    transform: translateX(-43%);
-    width: 15%;
-    height: 10px;
-    bottom: 115px;
-    background: white;
-    border-radius: 2px;
-    z-index: 1;
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 92%;
+  transform: translateX(-43%);
+  width: 15%;
+  height: 10px;
+  bottom: 220px;
+  background: white;
+  border-radius: 2px;
+  z-index: 1;
 }
 .places .frst .place8::after {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    left: 92%;
-    transform: translateX(-43%);
-    width: 15%;
-    height: 10px;
-    background: white;
-    border-radius: 2px;
-    z-index: 1;
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 92%;
+  transform: translateX(-43%);
+  width: 15%;
+  height: 10px;
+  background: white;
+  border-radius: 2px;
+  z-index: 1;
 }
-
 
 .frst div:last-child,
 .scnd div:last-child {
-    border-right: none;
+  border-right: none;
 }
 
-
-.bi-caret-right,.bi-caret-left{
-    font-size: 3rem;
-    color: rgb(211, 209, 209);
-    position: relative;
-    left: 15px;
+.bi-caret-right-fill,
+.bi-caret-left-fill {
+  font-size: 3rem;
+  color: white;
+  position: relative;
+  left: 35px;
+  z-index: 1;
 }
