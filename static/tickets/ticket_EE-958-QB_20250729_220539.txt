@@ -1,0 +1,24 @@
+
+╔══════════════════════════════════════════════════════════════╗
+║                        TICKET DE PARKING                     ║
+║                    SafeParkX - Système Automatique           ║
+╠══════════════════════════════════════════════════════════════╣
+║                                                              ║
+║  🎫 NUMÉRO DE TICKET: 18                           ║
+║  🚗 MATRICULE: EE-958-QB                                    ║
+║  🚙 TYPE DE VÉHICULE: Véhicule                         ║
+║  🅿️  PLACE ASSIGNÉE: 16                              ║
+║  📅 DATE D'ENTRÉE: 29/07/2025      ║
+║  🕐 HEURE D'ENTRÉE: 22:05:39     ║
+║  👤 ADMIN: 001                                      ║
+║                                                              ║
+║  ⚠️  IMPORTANT:                                                ║
+║  • Conservez ce ticket précieusement                        ║
+║  • Présentez-le à la sortie du parking                      ║
+║  • Le paiement se fait à la sortie                          ║
+║                                                              ║
+║  📞 CONTACT: +33 1 23 45 67 89                              ║
+║  🌐 WWW.SAFEPARKX.COM                                        ║
+║                                                              ║
+╚══════════════════════════════════════════════════════════════╝
+                

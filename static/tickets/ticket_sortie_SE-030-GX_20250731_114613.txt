@@ -1,0 +1,26 @@
+
+╔═══════════════════════════════════════════════════════════════════════════════╗
+║                        TICKET DE SORTIE                                       ║
+║                    SafeParkX - Système Automatique                            ║
+╠═══════════════════════════════════════════════════════════════════════════════╣
+║                                                                               ║
+║  🎫 NUMÉRO DE TICKET: N/A                      ║
+║  🚗 MATRICULE: SE-030-GX                                        ║
+║  🚙 TYPE DE VÉHICULE: Véhicule                             ║
+║  🅿️  PLACE ASSIGNÉE: 1                        ║
+║  📅 DATE D'ENTRÉE: 31/07/2025                                         ║
+║  📅 DATE DE SORTIE: N/A                                        ║
+║  ⏱️  DURÉE TOTALE: 0j 00h 00m 00s     ║
+║  💰 MONTANT À PAYER: 0.00 DH (0 min × 0.5 DH/min) ║
+║  👤 ADMIN: 001                                         ║
+║                                                                               ║
+║  ⚠️  IMPORTANT:                                                               ║
+║  • Merci d'avoir utilisé nos services                                        ║
+║  • Paiement effectué à la sortie                                             ║
+║  • À bientôt !                                                               ║
+║                                                                               ║
+║  📞 CONTACT: deweb TECHNOLOGY                                                 ║
+║  🌐 WWW.SAFEPARKX.COM | www.deweb.ma                                         ║
+║                                                                               ║
+╚═══════════════════════════════════════════════════════════════════════════════╝
+        

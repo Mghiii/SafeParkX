@@ -1,0 +1,24 @@
+
+╔═══════════════════════════════════════════════════════════════════════════════╗
+║                        TICKET DE PARKING                                      ║
+║                    SafeParkX - Système Automatique                            ║
+╠═══════════════════════════════════════════════════════════════════════════════╣
+║                                                                               ║
+║  🎫 NUMÉRO DE TICKET: N/A                     ║
+║  🚗 MATRICULE: UX-801-DX                                                    ║
+║  🚙 TYPE DE VÉHICULE: Véhicule                                         ║
+║  🅿️  PLACE ASSIGNÉE: N/A                        ║
+║  📅 DATE D'ENTRÉE: 31/07/2025                      ║
+║  🕐 HEURE D'ENTRÉE: 11:01:00                     ║
+║  👤 ADMIN: 001                                                     ║
+║                                                                               ║
+║  ⚠️  IMPORTANT:                                                               ║
+║  • Conservez ce ticket précieusement                                          ║
+║  • Présentez-le à la sortie du parking                                        ║
+║  • Le paiement se fait à la sortie                                            ║
+║                                                                               ║
+║  📞 CONTACT: deweb TECHNOLOGY                                                 ║
+║  🌐 WWW.SAFEPARKX.COM | www.deweb.ma                                          ║
+║                                                                               ║
+╚═══════════════════════════════════════════════════════════════════════════════╝
+                

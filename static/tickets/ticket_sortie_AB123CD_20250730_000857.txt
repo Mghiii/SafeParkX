@@ -1,0 +1,26 @@
+
+╔═══════════════════════════════════════════════════════════════════════════════╗
+║                        TICKET DE SORTIE                                       ║
+║                    SafeParkX - Système Automatique                            ║
+╠═══════════════════════════════════════════════════════════════════════════════╣
+║                                                                               ║
+║  🎫 NUMÉRO DE TICKET: N/A                      ║
+║  🚗 MATRICULE: AB123CD                                        ║
+║  🚙 TYPE DE VÉHICULE: Voiture                             ║
+║  🅿️  PLACE ASSIGNÉE: 3                        ║
+║  📅 DATE D'ENTRÉE: 19/07/2025            ║
+║  📅 DATE DE SORTIE: 30/07/2025           ║
+║  ⏱️  DURÉE TOTALE: 11j 00h 00m 00s     ║
+║  💰 MONTANT À PAYER: 7920.00 DH (15840 min × 0.5 DH/min) ║
+║  👤 ADMIN: 001                                         ║
+║                                                                               ║
+║  ⚠️  IMPORTANT:                                                               ║
+║  • Merci d'avoir utilisé nos services                                        ║
+║  • Paiement effectué à la sortie                                             ║
+║  • À bientôt !                                                               ║
+║                                                                               ║
+║  📞 CONTACT: deweb TECHNOLOGY                                                 ║
+║  🌐 WWW.SAFEPARKX.COM | www.deweb.ma                                         ║
+║                                                                               ║
+╚═══════════════════════════════════════════════════════════════════════════════╝
+        

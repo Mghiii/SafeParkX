@@ -1,0 +1,175 @@
+{% extends "base.html" %} {% block head %}
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='dashboard.css') }}"
+/>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{% endblock %} {% block content %}
+<div class="dashboard">
+  <div class="sidebar">
+    <div class="sideside">
+      <a href="/dashboard" title="Dashboard" class="active">
+        <i class="fas fa-tachometer-alt"></i>
+        <span>Dashboard</span>
+      </a>
+      <a href="/parking" title="Parking">
+        <i class="fas fa-parking"></i>
+        <span>Parking</span>
+      </a>
+      <a href="/log" title="Log">
+        <i class="fas fa-clipboard-list"></i>
+        <span>Log</span>
+      </a>
+      <a href="/camera" title="Caméra">
+        <i class="fas fa-video"></i>
+        <span>Caméra</span>
+      </a>
+      <a href="/settings" title="Settings">
+        <i class="fas fa-cog"></i>
+        <span>Settings</span>
+      </a>
+      <a href="/logout" title="Logout">
+        <i class="fas fa-sign-out-alt"></i>
+        <span>Logout</span>
+      </a>
+      <img src="/static/images/admin.png" alt="" class="admin-img" />
+    </div>
+  </div>
+  <div class="main-content">
+    <h1>Tableau de bord</h1>
+
+    <!-- Cartes de statistiques -->
+    <div class="stats-cards">
+      <div class="stat-card">
+        <div class="stat-icon">
+          <i class="fas fa-parking"></i>
+        </div>
+        <div class="stat-info">
+          <h3>{{ stats.total_places }}</h3>
+          <p>Places totales</p>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon occupied">
+          <i class="fas fa-car"></i>
+        </div>
+        <div class="stat-info">
+          <h3>{{ stats.places_occupees }}</h3>
+          <p>Places occupées</p>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon available">
+          <i class="fas fa-car-side"></i>
+        </div>
+        <div class="stat-info">
+          <h3>{{ stats.places_libres }}</h3>
+          <p>Places libres</p>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon percentage">
+          <i class="fas fa-percentage"></i>
+        </div>
+        <div class="stat-info">
+          <h3>{{ stats.taux_occupation }}%</h3>
+          <p>Taux d'occupation</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Graphiques -->
+    <div class="charts-container">
+      <div class="chart-card">
+        <h3>Occupation du parking</h3>
+        <canvas id="occupationChart" width="300" height="300"></canvas>
+      </div>
+
+      <div class="chart-card">
+        <h3>Répartition des véhicules</h3>
+        <canvas id="repartitionChart" width="400" height="200"></canvas>
+      </div>
+    </div>
+
+    <!-- Types de véhicules -->
+    <div class="vehicles-types">
+      <h3>Types de véhicules présents</h3>
+      <div class="types-grid">
+        {% for type in stats.types_vehicules %}
+        <div class="type-item">
+          <span class="type-name">{{ type.type_vehicule }}</span>
+          <span class="type-count">{{ type.count }}</span>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Graphique circulaire pour l'occupation
+  const ctx1 = document.getElementById('occupationChart').getContext('2d');
+  new Chart(ctx1, {
+    type: 'doughnut',
+    data: {
+      labels: ['Occupées', 'Libres'],
+      datasets: [{
+        data: [{{ stats.places_occupees }}, {{ stats.places_libres }}],
+        backgroundColor: ['#ff6b6b', '#51cf66'],
+        borderWidth: 0
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          position: 'bottom',
+          labels: {
+            color: '#333',
+            font: {
+              size: 14
+            }
+          }
+        }
+      }
+    }
+  });
+
+  // Graphique de répartition des types de véhicules
+  const ctx2 = document.getElementById('repartitionChart').getContext('2d');
+  const types = [{% for type in stats.types_vehicules %}'{{ type.type_vehicule }}'{% if not loop.last %}, {% endif %}{% endfor %}];
+  const counts = [{% for type in stats.types_vehicules %}{{ type.count }}{% if not loop.last %}, {% endif %}{% endfor %}];
+
+  new Chart(ctx2, {
+    type: 'pie',
+    data: {
+      labels: types,
+      datasets: [{
+        data: counts,
+        backgroundColor: ['#4dabf7', '#51cf66', '#ffd43b', '#ff6b6b', '#ae3ec9'],
+        borderWidth: 2,
+        borderColor: '#fff'
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          position: 'bottom',
+          labels: {
+            color: '#333',
+            font: {
+              size: 12
+            }
+          }
+        }
+      }
+    }
+  });
+</script>
+{% endblock %}

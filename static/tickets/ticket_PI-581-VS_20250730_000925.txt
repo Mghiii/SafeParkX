@@ -1,0 +1,24 @@
+
+╔═══════════════════════════════════════════════════════════════════════════════╗
+║                        TICKET DE PARKING                                      ║
+║                    SafeParkX - Système Automatique                            ║
+╠═══════════════════════════════════════════════════════════════════════════════╣
+║                                                                               ║
+║  🎫 NUMÉRO DE TICKET: 21       ║                    ║
+║  🚗 MATRICULE: PI-581-VS                                                    ║
+║  🚙 TYPE DE VÉHICULE: Véhicule                                         ║
+║  🅿️  PLACE ASSIGNÉE: 1          ║                  ║
+║  📅 DATE D'ENTRÉE: 30/07/2025                      ║
+║  🕐 HEURE D'ENTRÉE: 00:09:25                     ║
+║  👤 ADMIN: 001                                                     ║
+║                                                                               ║
+║  ⚠️  IMPORTANT:                                                               ║
+║  • Conservez ce ticket précieusement                                          ║
+║  • Présentez-le à la sortie du parking                                        ║
+║  • Le paiement se fait à la sortie                                            ║
+║                                                                               ║
+║  📞 CONTACT: deweb TECHNOLOGY                                                 ║
+║  🌐 WWW.SAFEPARKX.COM | www.deweb.ma                                          ║
+║                                                                               ║
+╚═══════════════════════════════════════════════════════════════════════════════╝
+                

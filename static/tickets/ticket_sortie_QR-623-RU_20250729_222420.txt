@@ -1,0 +1,26 @@
+
+╔═══════════════════════════════════════════════════════════════════════════════╗
+║                        TICKET DE SORTIE                                       ║
+║                    SafeParkX - Système Automatique                            ║
+╠═══════════════════════════════════════════════════════════════════════════════╣
+║                                                                               ║
+║  🎫 NUMÉRO DE TICKET: 20                      ║
+║  🚗 MATRICULE: QR-623-RU                                        ║
+║  🚙 TYPE DE VÉHICULE: Véhicule                             ║
+║  🅿️  PLACE ASSIGNÉE: 18                        ║
+║  📅 DATE D'ENTRÉE: 29/07/2025                        ║
+║  📅 DATE DE SORTIE: 29/07/2025                       ║
+║  ⏱️  DURÉE TOTALE: 0 jour(s)                                           ║
+║  💰 MONTANT À PAYER: 10.00 DH                                        ║
+║  👤 ADMIN: 001                                         ║
+║                                                                               ║
+║  ⚠️  IMPORTANT:                                                               ║
+║  • Merci d'avoir utilisé nos services                                        ║
+║  • Paiement effectué à la sortie                                             ║
+║  • À bientôt !                                                               ║
+║                                                                               ║
+║  📞 CONTACT: deweb TECHNOLOGY                                                 ║
+║  🌐 WWW.SAFEPARKX.COM | www.deweb.ma                                         ║
+║                                                                               ║
+╚═══════════════════════════════════════════════════════════════════════════════╝
+        

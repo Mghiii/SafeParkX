@@ -1,0 +1,296 @@
+.dashboard {
+  display: flex;
+  height: 100vh;
+  padding-bottom: 20px;
+  gap: 20px;
+}
+.sidebar {
+  width: 50px;
+  height: 100%;
+  margin: 0 10px;
+  display: flex;
+  align-items: center;
+  position: relative;
+  bottom: 200px;
+}
+.sideside {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+  background: rgba(255, 255, 255, 0.362);
+  padding: 30px 0px;
+  border-radius: 15px;
+  min-width: 60px;
+  position: relative;
+}
+
+.sideside a {
+  display: flex;
+  align-items: center;
+  color: #fff;
+  font-size: 18px;
+  text-decoration: none;
+  position: relative;
+  padding: 8px 0;
+}
+
+.sideside a span {
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  left: 50px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: #d1d1d1;
+  color: #222;
+  font-weight: 600;
+  padding: 8px 18px;
+  border-radius: 18px;
+  white-space: nowrap;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  font-size: 15px;
+  transition: opacity 0.2s, left 0.2s;
+  z-index: 10;
+}
+.sideside a span::before {
+  content: "";
+  position: absolute;
+  left: -10px;
+  top: 50%;
+  transform: translateY(-50%);
+  border-width: 6px;
+  border-style: solid;
+  border-color: transparent #d1d1d1 transparent transparent;
+}
+
+.sideside a:hover span,
+.sideside a:focus span {
+  opacity: 1;
+  left: 60px;
+  pointer-events: auto;
+}
+
+.sideside i {
+  font-size: 24px;
+  z-index: 2;
+}
+
+.admin-img {
+  width: 35px;
+  height: 35px;
+}
+.fa-clipboard-list {
+  color: black;
+}
+
+/* ---------------- */
+
+.main-content {
+  flex: 1;
+  height: 100%;
+  margin-right: 20px;
+  overflow: scroll;
+}
+
+/* Styles pour la page Log */
+
+/* Ajuster la hauteur du dashboard */
+.dashboard {
+  display: flex;
+  height: 1600px; /* Réduire pour laisser de l'espace au footer */
+  padding-bottom: 20px;
+  gap: 20px;
+}
+
+/* Section graphique */
+.chart-section {
+  background: white;
+  border-radius: 15px;
+  padding: 25px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
+}
+
+.chart-section h3 {
+  color: #333;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.chart-section canvas {
+  max-height: 300px;
+}
+
+/* Section statistiques */
+.stats-section {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.stat-item {
+  background: white;
+  border-radius: 15px;
+  padding: 20px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.stat-item h4 {
+  color: #666;
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
+.stat-number {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #333;
+}
+
+/* Section tableau */
+.table-section {
+  margin-top: 30px;
+  background: white;
+  border-radius: 15px;
+  padding: 25px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  height: 400px; /* Hauteur fixe pour le tableau */
+  display: flex;
+  flex-direction: column;
+}
+
+.table-section h3 {
+  color: #333;
+  margin-bottom: 20px;
+  text-align: center;
+  flex-shrink: 0; /* Empêche le titre de se rétrécir */
+}
+
+.table-container {
+  flex: 1; /* Prend le reste de l'espace */
+  overflow-y: auto; /* Scroll vertical */
+  overflow-x: auto; /* Scroll horizontal si nécessaire */
+}
+
+.vehicules-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+  min-height: 200px; /* Hauteur minimale */
+}
+
+.vehicules-table th,
+.vehicules-table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+  white-space: nowrap; /* Empêche le texte de se couper */
+  color: #2c3e50; /* Nouvelle couleur pour le contenu du tableau */
+}
+
+.vehicules-table th {
+  background: #f8f9fa;
+  font-weight: bold;
+  color: #333;
+  position: sticky; /* Garde les en-têtes visibles lors du scroll */
+  top: 0;
+  z-index: 5;
+}
+
+.vehicules-table tr:hover {
+  background: #f8f9fa;
+}
+
+.vehicules-table tr.present {
+  border-left: 4px solid #51cf66;
+}
+
+.vehicules-table tr.sorti {
+  border-left: 4px solid #ff6b6b;
+  opacity: 0.7;
+}
+
+/* Badges de statut */
+.status-badge {
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.status-badge.present {
+  background: #d4edda;
+  color: #155724;
+}
+
+.status-badge.sorti {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+/* Boutons d'action */
+.action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin: 2px;
+}
+
+.details-btn {
+  background: linear-gradient(135deg, #4dabf7, #339af0);
+  color: white;
+  box-shadow: 0 2px 8px rgba(77, 171, 247, 0.3);
+}
+
+.details-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(77, 171, 247, 0.4);
+}
+
+.ticket-btn {
+  background: linear-gradient(135deg, #ffc107, #ff9800);
+  color: white;
+  box-shadow: 0 2px 8px rgba(255, 193, 7, 0.3);
+}
+
+.ticket-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(255, 193, 7, 0.4);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .stats-section {
+    grid-template-columns: 1fr;
+  }
+
+  .vehicules-table {
+    font-size: 14px;
+  }
+
+  .vehicules-table th,
+  .vehicules-table td {
+    padding: 8px;
+  }
+
+  .table-section {
+    height: 300px; /* Plus petit sur mobile */
+  }
+
+  .action-btn {
+    padding: 4px 8px;
+    font-size: 11px;
+  }
+}

@@ -1,0 +1,318 @@
+.dashboard {
+  display: flex;
+  height: 80vh;
+  padding-bottom: 20px;
+  gap: 20px;
+}
+.sidebar {
+  width: 50px;
+  height: 100%;
+  margin: 0 10px;
+  display: flex;
+  align-items: center;
+}
+.sideside {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+  background: rgba(255, 255, 255, 0.362);
+  padding: 30px 0px;
+  border-radius: 15px;
+  min-width: 60px;
+  position: relative;
+}
+
+.sideside a {
+  display: flex;
+  align-items: center;
+  color: #fff;
+  font-size: 18px;
+  text-decoration: none;
+  position: relative;
+  padding: 8px 0;
+}
+
+.sideside a span {
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  left: 50px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: #d1d1d1;
+  color: #222;
+  font-weight: 600;
+  padding: 8px 18px;
+  border-radius: 18px;
+  white-space: nowrap;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  font-size: 15px;
+  transition: opacity 0.2s, left 0.2s;
+  z-index: 10;
+}
+.sideside a span::before {
+  content: "";
+  position: absolute;
+  left: -10px;
+  top: 50%;
+  transform: translateY(-50%);
+  border-width: 6px;
+  border-style: solid;
+  border-color: transparent #d1d1d1 transparent transparent;
+}
+
+.sideside a:hover span,
+.sideside a:focus span {
+  opacity: 1;
+  left: 60px;
+  pointer-events: auto;
+}
+
+.sideside i {
+  font-size: 24px;
+  z-index: 2;
+}
+
+.admin-img {
+  width: 35px;
+  height: 35px;
+}
+
+.fa-parking {
+  color: black;
+}
+
+/* ---------------- */
+
+.main-content {
+  flex: 1;
+  height: 100%;
+  margin-right: 20px;
+  overflow: scroll;
+  z-index: 0;
+}
+
+/* Styles pour la page Parking */
+
+/* Statistiques du parking */
+.parking-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.parking-stats .stat-card {
+  background: white;
+  border-radius: 15px;
+  padding: 25px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  transition: transform 0.3s ease;
+}
+
+.parking-stats .stat-card:hover {
+  transform: translateY(-5px);
+}
+
+.parking-stats .stat-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  font-size: 24px;
+}
+
+.parking-stats .stat-icon.available {
+  background: linear-gradient(135deg, #51cf66 0%, #40c057 100%);
+}
+
+.parking-stats .stat-icon.percentage {
+  background: linear-gradient(135deg, #ffd43b 0%, #fcc419 100%);
+}
+
+.parking-stats .stat-info h3 {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #333;
+  margin: 0;
+}
+
+.parking-stats .stat-info p {
+  color: #666;
+  margin: 5px 0 0 0;
+  font-size: 14px;
+}
+
+/* Section tableau */
+.parking-table-section {
+  background: white;
+  border-radius: 15px;
+  padding: 25px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.parking-table-section h3 {
+  color: #333;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.table-container {
+  overflow-y: auto;
+  overflow-x: auto;
+  max-height: 500px; /* Hauteur maximale pour le scroll */
+}
+
+.parking-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.parking-table th,
+.parking-table td {
+  padding: 15px;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+  color: #2c3e50;
+}
+
+.parking-table th {
+  background: #f8f9fa;
+  font-weight: bold;
+  color: #333;
+  position: sticky; /* Garde les en-têtes visibles lors du scroll */
+  top: 0;
+  z-index: 10;
+}
+
+.parking-table tr:hover {
+  background: #f8f9fa;
+}
+
+/* Badges */
+.place-badge {
+  background: #667eea;
+  color: white;
+  padding: 8px 15px;
+  border-radius: 20px;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.type-badge {
+  padding: 6px 12px;
+  border-radius: 15px;
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.type-badge.voiture {
+  background: #d4edda;
+  color: #155724;
+}
+
+.type-badge.moto {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.type-badge.camion {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+/* Bouton détails */
+.details-btn {
+  background: #28a745;
+  color: white;
+  padding: 8px 15px;
+  border-radius: 20px;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: bold;
+  transition: background 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.details-btn:hover {
+  background: #218838;
+  color: white;
+  text-decoration: none;
+}
+
+.details-btn i {
+  font-size: 12px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .parking-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .parking-table {
+    font-size: 14px;
+  }
+
+  .parking-table th,
+  .parking-table td {
+    padding: 10px;
+  }
+}
+
+/* Miniatures des véhicules */
+.vehicle-thumbnail {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 2px solid #e0e0e0;
+  transition: transform 0.2s ease;
+}
+
+.vehicle-thumbnail:hover {
+  transform: scale(1.1);
+  border-color: #ff6b6b;
+}
+
+.no-image {
+  width: 50px;
+  height: 50px;
+  background: #f5f5f5;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #999;
+  font-size: 20px;
+  border: 2px solid #e0e0e0;
+}
+
+/* Badge de ticket */
+.ticket-badge {
+  background: #17a2b8;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+/* Ajustement du tableau pour la nouvelle colonne */
+.parking-table th:first-child,
+.parking-table td:first-child {
+  width: 70px;
+  text-align: center;
+}

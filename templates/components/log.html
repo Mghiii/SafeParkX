@@ -1,0 +1,236 @@
+{% extends 'base.html' %} {% block head %}
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='dashboard.css') }}"
+/>
+<link rel="stylesheet" href="{{ url_for('static', filename='log.css') }}" />
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{% endblock %} {% block content %}
+<div class="dashboard">
+  <div class="sidebar">
+    <div class="sideside">
+      <a href="/dashboard" title="Dashboard">
+        <i class="fas fa-tachometer-alt"></i>
+        <span>Dashboard</span>
+      </a>
+      <a href="/parking" title="Parking">
+        <i class="fas fa-parking"></i>
+        <span>Parking</span>
+      </a>
+      <a href="/log" title="Log" class="active">
+        <i class="fas fa-clipboard-list"></i>
+        <span>Log</span>
+      </a>
+      <a href="/camera" title="Caméra">
+        <i class="fas fa-video"></i>
+        <span>Caméra</span>
+      </a>
+      <a href="/settings" title="Settings">
+        <i class="fas fa-cog"></i>
+        <span>Settings</span>
+      </a>
+      <a href="/logout" title="Logout">
+        <i class="fas fa-sign-out-alt"></i>
+        <span>Logout</span>
+      </a>
+      <img src="/static/images/admin.png" alt="" class="admin-img" />
+    </div>
+  </div>
+  <div class="main-content">
+    <h1>Historique des Véhicules</h1>
+
+    <!-- Graphique des entrées historiques -->
+    <div class="chart-section">
+      <h3>Entrées des 30 derniers jours</h3>
+      <canvas id="entreesHistoriqueChart" width="800" height="300"></canvas>
+    </div>
+
+    <!-- Statistiques historiques -->
+    <div class="stats-section">
+      <div class="stat-item">
+        <h4>Total Véhicules</h4>
+        <span class="stat-number">{{ stats.total_vehicules }}</span>
+      </div>
+      <div class="stat-item">
+        <h4>Véhicules Actuels</h4>
+        <span class="stat-number">{{ stats.vehicules_actuels }}</span>
+      </div>
+      <div class="stat-item">
+        <h4>Véhicules Sortis</h4>
+        <span class="stat-number">{{ stats.vehicules_sortis }}</span>
+      </div>
+    </div>
+
+    <!-- Véhicules Actuels -->
+    <div class="table-section">
+      <h3>Véhicules Actuellement au Parking</h3>
+      <div class="table-container">
+        <table class="vehicules-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Matricule</th>
+              <th>Type</th>
+              <th>Date Entrée</th>
+              <th>Place</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for vehicule in vehicules_actuels %}
+            <tr class="present">
+              <td>{{ vehicule.id_vehicule }}</td>
+              <td>{{ vehicule.matricule }}</td>
+              <td>{{ vehicule.type_vehicule }}</td>
+              <td>{{ vehicule.date_entrer }}</td>
+              <td>
+                {{ vehicule.id_place if vehicule.id_place else 'Non assignée' }}
+              </td>
+              <td>
+                <a
+                  href="/vehicule/{{ vehicule.id_vehicule }}"
+                  class="action-btn details-btn"
+                >
+                  <i class="fas fa-info-circle"></i>
+                  Détails
+                </a>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Véhicules Sortis -->
+    <div class="table-section">
+      <h3>Historique des Véhicules Sortis</h3>
+      <div class="table-container">
+        <table class="vehicules-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Matricule</th>
+              <th>Type</th>
+              <th>Date Entrée</th>
+              <th>Date Sortie</th>
+              <th>Durée</th>
+              <th>Montant</th>
+              <th>Place</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for vehicule in vehicules_sortis %}
+            <tr class="sorti">
+              <td>{{ vehicule.id_vehicule }}</td>
+              <td>{{ vehicule.matricule }}</td>
+              <td>{{ vehicule.type_vehicule }}</td>
+              <td>{{ vehicule.date_entrer }}</td>
+              <td>{{ vehicule.date_sortie }}</td>
+              <td>
+                {% if vehicule.duree_jours > 0 %}{{ vehicule.duree_jours }}j{%
+                endif %} {% if vehicule.duree_heures > 0 %}{{
+                vehicule.duree_heures }}h{% endif %} {% if
+                vehicule.duree_minutes > 0 %}{{ vehicule.duree_minutes }}m{%
+                endif %} {% if vehicule.duree_secondes > 0 %}{{
+                vehicule.duree_secondes }}s{% endif %}
+              </td>
+              <td>{{ "%.2f"|format(vehicule.montant_total) }} DH</td>
+              <td>{{ vehicule.id_place if vehicule.id_place else '-' }}</td>
+              <td>
+                <a
+                  href="/vehicule/{{ vehicule.id_vehicule }}"
+                  class="action-btn details-btn"
+                >
+                  <i class="fas fa-info-circle"></i>
+                  Détails
+                </a>
+                <button
+                  onclick="generateExitTicket({{ vehicule.id_vehicule }})"
+                  class="action-btn ticket-btn"
+                >
+                  <i class="fas fa-ticket-alt"></i>
+                  Ticket
+                </button>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Graphique des entrées historiques
+  const ctx = document.getElementById('entreesHistoriqueChart').getContext('2d');
+  const dates = [{% for entree in stats.entrees_historique %}'{{ entree.date }}'{% if not loop.last %}, {% endif %}{% endfor %}];
+  const counts = [{% for entree in stats.entrees_historique %}{{ entree.count }}{% if not loop.last %}, {% endif %}{% endfor %}];
+
+  new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: dates,
+      datasets: [{
+        label: 'Entrées quotidiennes',
+        data: counts,
+        borderColor: '#4dabf7',
+        backgroundColor: 'rgba(77, 171, 247, 0.1)',
+        borderWidth: 3,
+        fill: true,
+        tension: 0.4
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        y: {
+          beginAtZero: true,
+          ticks: {
+            color: '#333'
+          }
+        },
+        x: {
+          ticks: {
+            color: '#333'
+          }
+        }
+      },
+      plugins: {
+        legend: {
+          labels: {
+            color: '#333'
+          }
+        }
+      }
+    }
+  });
+
+  // Fonction pour générer le ticket de sortie
+  function generateExitTicket(vehiculeId) {
+    fetch(`/generate_exit_ticket/${vehiculeId}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+    .then((response) => response.blob())
+    .then((blob) => {
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `ticket_sortie_${vehiculeId}_${new Date().toISOString().slice(0, 10)}.txt`;
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(a);
+    })
+    .catch((error) => {
+      alert('Erreur lors de la génération du ticket');
+    });
+  }
+</script>
+{% endblock %}

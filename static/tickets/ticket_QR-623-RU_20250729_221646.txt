@@ -1,0 +1,24 @@
+
+╔═══════════════════════════════════════════════════════════════════════════════╗
+║                        TICKET DE PARKING                                      ║
+║                    SafeParkX - Système Automatique                            ║
+╠═══════════════════════════════════════════════════════════════════════════════╣
+║                                                                               ║
+║  🎫 NUMÉRO DE TICKET: 20       ║                    ║
+║  🚗 MATRICULE: QR-623-RU                                                    ║
+║  🚙 TYPE DE VÉHICULE: Véhicule                                         ║
+║  🅿️  PLACE ASSIGNÉE: 18          ║                  ║
+║  📅 DATE D'ENTRÉE: 29/07/2025                      ║
+║  🕐 HEURE D'ENTRÉE: 22:16:46                     ║
+║  👤 ADMIN: 001                                                     ║
+║                                                                               ║
+║  ⚠️  IMPORTANT:                                                               ║
+║  • Conservez ce ticket précieusement                                          ║
+║  • Présentez-le à la sortie du parking                                        ║
+║  • Le paiement se fait à la sortie                                            ║
+║                                                                               ║
+║  📞 CONTACT: deweb TECHNOLOGY                                                 ║
+║  🌐 WWW.SAFEPARKX.COM | www.deweb.ma                                          ║
+║                                                                               ║
+╚═══════════════════════════════════════════════════════════════════════════════╝
+                

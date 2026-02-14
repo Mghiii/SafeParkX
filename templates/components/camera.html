@@ -1,0 +1,308 @@
+{% extends "base.html" %} {% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='camera.css') }}" />
+{% endblock %} {% block content %}
+<div class="camera-page">
+  <div class="sidebar">
+    <div class="sideside">
+      <a href="/dashboard" title="Dashboard">
+        <i class="fas fa-tachometer-alt"></i>
+        <span>Dashboard</span>
+      </a>
+      <a href="/parking" title="Parking">
+        <i class="fas fa-parking"></i>
+        <span>Parking</span>
+      </a>
+      <a href="/log" title="Log">
+        <i class="fas fa-clipboard-list"></i>
+        <span>Log</span>
+      </a>
+      <a href="/camera" title="Caméra" class="active">
+        <i class="fas fa-video"></i>
+        <span>Caméra</span>
+      </a>
+      <a href="/settings" title="Settings">
+        <i class="fas fa-cog"></i>
+        <span>Settings</span>
+      </a>
+      <a href="/logout" title="Logout">
+        <i class="fas fa-sign-out-alt"></i>
+        <span>Logout</span>
+      </a>
+      <img src="/static/images/admin.png" alt="" class="admin-img" />
+    </div>
+  </div>
+
+  <div class="main-content">
+    <div class="camera-header">
+      <h1>Surveillance Caméra</h1>
+      <p>Surveillez l'entrée du parking en temps réel</p>
+    </div>
+
+    <div class="camera-container">
+      <div class="video-section">
+        <div class="video-container">
+          <img
+            id="video-feed"
+            src="{{ url_for('video_feed') }}"
+            alt="Flux vidéo"
+          />
+          <div class="video-overlay">
+            <div class="camera-status">
+              <i class="fas fa-circle recording"></i>
+              <span>En direct</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="capture-controls">
+          <button type="button" id="capture-btn" class="capture-btn">
+            <i class="fas fa-camera"></i>
+            BARRIÈRE
+          </button>
+        </div>
+      </div>
+
+      <div class="captures-section">
+        <div class="captures-header">
+          <h3>Captures récentes</h3>
+          <span class="capture-count">{{ captures|length }} capture(s)</span>
+        </div>
+
+        <div class="captures-grid" id="captures-grid">
+          {% if captures %} {% for capture in captures %}
+          <div class="capture-item" data-filename="{{ capture.filename }}">
+            <div class="capture-image">
+              <img
+                src="{{ capture.path }}"
+                alt="Capture {{ capture.filename }}"
+              />
+              <div class="capture-overlay">
+                <button
+                  class="delete-capture"
+                  onclick="deleteCapture('{{ capture.filename }}')"
+                >
+                  <i class="fas fa-trash"></i>
+                </button>
+              </div>
+            </div>
+            <div class="capture-info">
+              <span class="capture-name">{{ capture.filename }}</span>
+              <span class="capture-date"
+                >{{ capture.date.strftime('%d/%m/%Y %H:%M') }}</span
+              >
+              <span class="capture-size"
+                >{{ "%.1f"|format(capture.size / 1024) }} KB</span
+              >
+            </div>
+          </div>
+          {% endfor %} {% else %}
+          <div class="no-captures">
+            <i class="fas fa-camera-slash"></i>
+            <p>Aucune capture disponible</p>
+            <span>Utilisez le bouton BARRIÈRE pour prendre une photo</span>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const captureBtn = document.getElementById("capture-btn");
+    const capturesGrid = document.getElementById("captures-grid");
+
+    // Gestion du bouton de capture
+    captureBtn.addEventListener("click", function () {
+      // Animation du bouton
+      this.classList.add("capturing");
+
+      // Créer les données du formulaire (type par défaut)
+      const formData = new FormData();
+      formData.append("type_vehicule", "Véhicule");
+
+      fetch("/capture", {
+        method: "POST",
+        body: formData,
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.success) {
+            // Ajouter la nouvelle capture à la grille
+            addCaptureToGrid(
+              data.filename,
+              data.path,
+              data.matricule,
+              data.type_vehicule
+            );
+
+            // Afficher un message de succès
+            showNotification(data.message, "success");
+
+            // Afficher un lien pour télécharger le ticket
+            if (data.ticket_url) {
+              const ticketLink = document.createElement("a");
+              ticketLink.href = data.ticket_url;
+              ticketLink.download = data.ticket_filename;
+              ticketLink.textContent = "📄 Télécharger le ticket";
+              ticketLink.className = "ticket-download-link";
+              ticketLink.style.cssText = `
+                display: inline-block;
+                background: linear-gradient(135deg, #28a745, #20c997);
+                color: white;
+                padding: 10px 20px;
+                border-radius: 8px;
+                text-decoration: none;
+                font-weight: 600;
+                margin-top: 10px;
+                box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+              `;
+
+              // Ajouter le lien à la page
+              const notification = document.createElement("div");
+              notification.className = "ticket-notification";
+              notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: white;
+                padding: 20px;
+                border-radius: 10px;
+                box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+                z-index: 1000;
+                max-width: 300px;
+              `;
+              notification.innerHTML = `
+                <h4 style="margin: 0 0 10px 0; color: #333;">🎫 Ticket généré !</h4>
+                <p style="margin: 0 0 15px 0; color: #666;">Le ticket pour le véhicule ${data.matricule} a été créé.</p>
+              `;
+              notification.appendChild(ticketLink);
+
+              document.body.appendChild(notification);
+
+              // Supprimer la notification après 10 secondes
+              setTimeout(() => {
+                if (notification.parentNode) {
+                  notification.parentNode.removeChild(notification);
+                }
+              }, 10000);
+            }
+          } else {
+            showNotification(
+              "Erreur lors de la capture: " + data.message,
+              "error"
+            );
+          }
+        })
+        .catch((error) => {
+          showNotification("Erreur de connexion", "error");
+        })
+        .finally(() => {
+          // Retirer l'animation
+          setTimeout(() => {
+            captureBtn.classList.remove("capturing");
+          }, 500);
+        });
+    });
+  });
+
+  function deleteCapture(filename) {
+    if (confirm("Êtes-vous sûr de vouloir supprimer cette capture ?")) {
+      fetch(`/delete_capture/${filename}`, {
+        method: "DELETE",
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.success) {
+            // Supprimer l'élément de la grille
+            const captureItem = document.querySelector(
+              `[data-filename="${filename}"]`
+            );
+            if (captureItem) {
+              captureItem.remove();
+            }
+
+            // Mettre à jour le compteur
+            updateCaptureCount();
+
+            showNotification("Capture supprimée avec succès", "success");
+          } else {
+            showNotification(
+              "Erreur lors de la suppression: " + data.message,
+              "error"
+            );
+          }
+        })
+        .catch((error) => {
+          showNotification("Erreur de connexion", "error");
+        });
+    }
+  }
+
+  function addCaptureToGrid(filename, path, matricule, typeVehicule) {
+    const capturesGrid = document.getElementById("captures-grid");
+
+    // Supprimer le message "aucune capture" s'il existe
+    const noCaptures = capturesGrid.querySelector(".no-captures");
+    if (noCaptures) {
+      noCaptures.remove();
+    }
+
+    // Créer le nouvel élément de capture
+    const captureItem = document.createElement("div");
+    captureItem.className = "capture-item";
+    captureItem.setAttribute("data-filename", filename);
+
+    const now = new Date();
+    const dateStr =
+      now.toLocaleDateString("fr-FR") +
+      " " +
+      now.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" });
+
+    captureItem.innerHTML = `
+        <div class="capture-image">
+            <img src="${path}" alt="Capture ${filename}" />
+            <div class="capture-overlay">
+                <button class="delete-capture" onclick="deleteCapture('${filename}')">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </div>
+        </div>
+        <div class="capture-info">
+            <span class="capture-name">${matricule}</span>
+            <span class="capture-date">${dateStr}</span>
+            <span class="capture-size">${typeVehicule}</span>
+        </div>
+    `;
+
+    // Ajouter au début de la grille
+    capturesGrid.insertBefore(captureItem, capturesGrid.firstChild);
+
+    // Mettre à jour le compteur
+    updateCaptureCount();
+  }
+
+  function updateCaptureCount() {
+    const captureItems = document.querySelectorAll(".capture-item");
+    const countElement = document.querySelector(".capture-count");
+    if (countElement) {
+      countElement.textContent = `${captureItems.length} capture(s)`;
+    }
+  }
+
+  function showNotification(message, type) {
+    // Créer une notification temporaire
+    const notification = document.createElement("div");
+    notification.className = `notification ${type}`;
+    notification.textContent = message;
+
+    document.body.appendChild(notification);
+
+    // Supprimer après 3 secondes
+    setTimeout(() => {
+      notification.remove();
+    }, 3000);
+  }
+</script>
+{% endblock %}

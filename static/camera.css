@@ -1,0 +1,584 @@
+/* Page Caméra */
+.camera-page {
+  display: flex;
+  height: 85vh;
+  padding-bottom: 20px;
+  gap: 20px;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 50px;
+  height: 100%;
+  margin: 0 10px;
+  display: flex;
+  align-items: center;
+}
+
+.sideside {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+  background: rgba(255, 255, 255, 0.362);
+  padding: 30px 0px;
+  border-radius: 15px;
+  min-width: 60px;
+  position: relative;
+}
+
+.sideside a {
+  display: flex;
+  align-items: center;
+  color: #fff;
+  font-size: 18px;
+  text-decoration: none;
+  position: relative;
+  padding: 8px 0;
+}
+
+.sideside a span {
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  left: 50px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: #d1d1d1;
+  color: #222;
+  font-weight: 600;
+  padding: 8px 18px;
+  border-radius: 18px;
+  white-space: nowrap;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  font-size: 15px;
+  transition: opacity 0.2s, left 0.2s;
+  z-index: 10;
+}
+
+.sideside a span::before {
+  content: "";
+  position: absolute;
+  left: -10px;
+  top: 50%;
+  transform: translateY(-50%);
+  border-width: 6px;
+  border-style: solid;
+  border-color: transparent #d1d1d1 transparent transparent;
+}
+
+.sideside a:hover span,
+.sideside a:focus span {
+  opacity: 1;
+  left: 60px;
+  pointer-events: auto;
+}
+
+.sideside i {
+  font-size: 24px;
+  z-index: 2;
+}
+
+.sideside a.active i {
+  color: #ff6b6b;
+}
+
+.admin-img {
+  width: 35px;
+  height: 35px;
+}
+
+/* Contenu principal */
+.main-content {
+  flex: 1;
+  height: 100%;
+  margin-right: 20px;
+}
+
+.camera-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.camera-header h1 {
+  color: white;
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.camera-header p {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 1.1rem;
+}
+
+/* Container principal */
+.camera-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* Section vidéo */
+.video-section {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  padding: 25px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.video-container {
+  position: relative;
+  border-radius: 15px;
+  overflow: hidden;
+  margin-bottom: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+#video-feed {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+  display: block;
+}
+
+.video-overlay {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  z-index: 10;
+}
+
+.camera-status {
+  display: flex;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 8px 15px;
+  border-radius: 25px;
+  font-size: 0.9rem;
+}
+
+.camera-status i {
+  color: #ff6b6b;
+  margin-right: 8px;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/* Contrôles de capture */
+.capture-controls {
+  text-align: center;
+}
+
+.vehicle-type-selector {
+  margin-bottom: 20px;
+}
+
+.vehicle-type-selector label {
+  display: block;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.9rem;
+  margin-bottom: 8px;
+}
+
+.vehicle-type-selector select {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: white;
+  padding: 10px 15px;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.vehicle-type-selector select:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+.vehicle-type-selector select:focus {
+  outline: none;
+  border-color: #ff6b6b;
+  box-shadow: 0 0 0 2px rgba(255, 107, 107, 0.3);
+}
+
+.vehicle-type-selector option {
+  background: #333;
+  color: white;
+}
+
+.capture-button {
+  background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
+  color: white;
+  border: none;
+  padding: 20px 40px;
+  border-radius: 50px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 15px;
+  min-width: 200px;
+}
+
+.capture-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 35px rgba(255, 107, 107, 0.6);
+  background: linear-gradient(45deg, #ff5252, #ff7676);
+}
+
+.capture-button:active {
+  transform: translateY(0);
+}
+
+.capture-button.capturing {
+  animation: capture-pulse 0.5s ease-in-out;
+}
+
+@keyframes capture-pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.capture-button i {
+  margin-right: 10px;
+  font-size: 1.3rem;
+}
+
+.capture-info p {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+/* Section captures */
+.captures-section {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  padding: 25px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  max-height: 600px;
+  overflow-y: auto;
+}
+
+.captures-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.captures-header h3 {
+  color: white;
+  margin: 0;
+  font-size: 1.3rem;
+}
+
+.capture-count {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.9rem;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 5px 12px;
+  border-radius: 15px;
+}
+
+/* Grille des captures */
+.captures-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 15px;
+}
+
+.capture-item {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.capture-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.capture-image {
+  position: relative;
+  height: 150px;
+  overflow: hidden;
+}
+
+.capture-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.capture-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.capture-item:hover .capture-overlay {
+  opacity: 1;
+}
+
+.delete-capture {
+  background: #ff6b6b;
+  color: white;
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.delete-capture:hover {
+  background: #ff5252;
+  transform: scale(1.1);
+}
+
+.capture-info {
+  padding: 12px;
+}
+
+.capture-name {
+  display: block;
+  color: white;
+  font-weight: 500;
+  font-size: 0.9rem;
+  margin-bottom: 5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.capture-date,
+.capture-size {
+  display: block;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.8rem;
+  margin-bottom: 2px;
+}
+
+/* État vide */
+.no-captures {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 40px 20px;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.no-captures i {
+  font-size: 3rem;
+  margin-bottom: 15px;
+  opacity: 0.5;
+}
+
+.no-captures p {
+  font-size: 1.1rem;
+  margin-bottom: 8px;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.no-captures span {
+  font-size: 0.9rem;
+}
+
+/* Notifications */
+.notification {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 15px 25px;
+  border-radius: 10px;
+  color: white;
+  font-weight: 500;
+  z-index: 1000;
+  animation: slideIn 0.3s ease;
+  max-width: 300px;
+}
+
+.notification.success {
+  background: linear-gradient(45deg, #51cf66, #69db7c);
+}
+
+.notification.error {
+  background: linear-gradient(45deg, #ff6b6b, #ff8787);
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+  .camera-container {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .captures-section {
+    max-height: 400px;
+  }
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    width: 80px;
+  }
+
+  .sideside a span {
+    display: none;
+  }
+
+  .sideside a i {
+    margin-right: 0;
+    font-size: 20px;
+  }
+
+  .main-content {
+    padding: 20px;
+  }
+
+  .camera-header h1 {
+    font-size: 2rem;
+  }
+
+  .capture-button {
+    padding: 15px 30px;
+    font-size: 1rem;
+  }
+
+  .captures-grid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  }
+}
+
+@media (max-width: 480px) {
+  .camera-page {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    height: auto;
+  }
+
+  .sideside {
+    flex-direction: row;
+    justify-content: space-around;
+    padding: 10px;
+  }
+
+  .sideside a {
+    flex-direction: column;
+    padding: 10px;
+    text-align: center;
+  }
+
+  .sideside a i {
+    margin-right: 0;
+    margin-bottom: 5px;
+  }
+
+  .admin-img {
+    display: none;
+  }
+
+  .captures-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.generate-ticket-btn i {
+  font-size: 18px;
+}
+
+/* Ajustement de l'espacement des contrôles */
+.capture-controls {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
+}
+
+/* Bouton de capture */
+.capture-btn {
+  background: linear-gradient(135deg, #dc3545, #c82333);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 4px 15px rgba(220, 53, 69, 0.3);
+}
+
+.capture-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(220, 53, 69, 0.4);
+}
+
+.capture-btn:active {
+  transform: translateY(0);
+}
+
+.capture-btn i {
+  font-size: 18px;
+}

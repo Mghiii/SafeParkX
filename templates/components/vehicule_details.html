@@ -1,0 +1,520 @@
+{% extends 'base.html' %} {% block head %}
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='dashboard.css') }}"
+/>
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='vehicule_details.css') }}"
+/>
+<style>
+  /* Alertes stylées */
+  .alert {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 15px 20px;
+    border-radius: 8px;
+    color: white;
+    font-weight: 500;
+    z-index: 10000;
+    transform: translateX(400px);
+    transition: transform 0.3s ease-in-out;
+    max-width: 350px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  .alert.show {
+    transform: translateX(0);
+  }
+
+  .alert-success {
+    background: linear-gradient(135deg, #28a745, #20c997);
+    border-left: 4px solid #1e7e34;
+  }
+
+  .alert-error {
+    background: linear-gradient(135deg, #dc3545, #e74c3c);
+    border-left: 4px solid #c82333;
+  }
+
+  .alert-warning {
+    background: linear-gradient(135deg, #ffc107, #fd7e14);
+    border-left: 4px solid #e0a800;
+    color: #212529;
+  }
+
+  .alert-info {
+    background: linear-gradient(135deg, #17a2b8, #6f42c1);
+    border-left: 4px solid #138496;
+  }
+
+  .alert-close {
+    float: right;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-left: 10px;
+  }
+
+  .alert-close:hover {
+    opacity: 0.7;
+  }
+
+  /* Animation d'entrée */
+  @keyframes slideIn {
+    from {
+      transform: translateX(400px);
+    }
+    to {
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes slideOut {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(400px);
+    }
+  }
+</style>
+{% endblock %} {% block content %}
+<div class="dashboard">
+  <div class="sidebar">
+    <div class="sideside">
+      <a href="/dashboard" title="Dashboard">
+        <i class="fas fa-tachometer-alt"></i>
+        <span>Dashboard</span>
+      </a>
+      <a href="/parking" title="Parking">
+        <i class="fas fa-parking"></i>
+        <span>Parking</span>
+      </a>
+      <a href="/log" title="Log">
+        <i class="fas fa-clipboard-list"></i>
+        <span>Log</span>
+      </a>
+      <a href="/camera" title="Caméra">
+        <i class="fas fa-video"></i>
+        <span>Caméra</span>
+      </a>
+      <a href="/settings" title="Settings">
+        <i class="fas fa-cog"></i>
+        <span>Settings</span>
+      </a>
+      <a href="/logout" title="Logout">
+        <i class="fas fa-sign-out-alt"></i>
+        <span>Logout</span>
+      </a>
+      <img src="/static/images/admin.png" alt="" class="admin-img" />
+    </div>
+  </div>
+  <div class="main-content">
+    <div class="back-button">
+      <a href="/parking">
+        <i class="fas fa-arrow-left"></i>
+        Retour au parking
+      </a>
+    </div>
+
+    <h1>Détails du Véhicule #{{ vehicule.id_vehicule }}</h1>
+
+    {% if vehicule.date_sortie or is_exited %}
+    <div class="alert alert-warning show" id="exited-alert">
+      <span class="alert-close" onclick="closeAlert('exited-alert')"
+        >&times;</span
+      >
+      <i class="fas fa-exclamation-triangle"></i>
+      Ce véhicule est déjà sorti du parking le {{
+      vehicule.date_sortie.strftime('%d/%m/%Y à %H:%M') if vehicule.date_sortie
+      else 'N/A' }}
+    </div>
+    {% endif %}
+
+    <!-- Section Image et Actions côte à côte -->
+    <div class="top-section">
+      <!-- Image du véhicule -->
+      <div class="vehicle-image-section">
+        {% if vehicule.image_path %}
+        <div class="vehicle-image-container">
+          <img
+            src="{{ vehicule.image_path }}"
+            alt="Véhicule {{ vehicule.matricule }}"
+            class="vehicle-image"
+          />
+          <div class="image-overlay">
+            <span class="matricule-overlay">{{ vehicule.matricule }}</span>
+          </div>
+        </div>
+        {% else %}
+        <div class="no-image-container">
+          <i class="fas fa-car"></i>
+          <p>Aucune image disponible</p>
+        </div>
+        {% endif %}
+      </div>
+
+      <!-- Actions -->
+      <div class="actions-section">
+        <h3>Actions</h3>
+        <div class="actions">
+          {% if not vehicule.date_sortie and not is_exited %}
+          <button class="action-btn exit-btn" onclick="registerExit()">
+            <i class="fas fa-sign-out-alt"></i>
+            Enregistrer la sortie
+          </button>
+          {% elif vehicule.date_sortie or is_exited %}
+          <button class="action-btn ticket-btn" onclick="generateExitTicket()">
+            <i class="fas fa-ticket-alt"></i>
+            Générer Ticket de Sortie
+          </button>
+          {% endif %} {% if not is_exited %}
+          <button class="action-btn edit-btn" onclick="editVehicle()">
+            <i class="fas fa-edit"></i>
+            Modifier
+          </button>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    <!-- Informations principales -->
+    <div class="details-grid">
+      <div class="detail-card">
+        <div class="detail-icon">
+          <i class="fas fa-car"></i>
+        </div>
+        <div class="detail-content">
+          <h3>Informations Générales</h3>
+          <div class="detail-item">
+            <span class="label">ID Véhicule:</span>
+            <span class="value">{{ vehicule.id_vehicule }}</span>
+          </div>
+          <div class="detail-item">
+            <span class="label">Matricule:</span>
+            <span class="value">{{ vehicule.matricule }}</span>
+          </div>
+          <div class="detail-item">
+            <span class="label">Type:</span>
+            <span class="value type-badge {{ vehicule.type_vehicule.lower() }}">
+              {{ vehicule.type_vehicule }}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="detail-card">
+        <div class="detail-icon">
+          <i class="fas fa-parking"></i>
+        </div>
+        <div class="detail-content">
+          <h3>Informations de Parking</h3>
+          <div class="detail-item">
+            <span class="label">Place:</span>
+            <span class="value place-badge"
+              >{{ vehicule.id_place if vehicule.id_place else 'Non assignée'
+              }}</span
+            >
+          </div>
+          <div class="detail-item">
+            <span class="label">État de la place:</span>
+            <span
+              class="value status-badge {{ 'occupee' if vehicule.place_etat else 'libre' }}"
+            >
+              {{ 'Occupée' if vehicule.place_etat else 'Libre' }}
+            </span>
+          </div>
+          <div class="detail-item">
+            <span class="label">Admin responsable:</span>
+            <span class="value">{{ vehicule.id_admin }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="detail-card">
+        <div class="detail-icon">
+          <i class="fas fa-clock"></i>
+        </div>
+        <div class="detail-content">
+          <h3>Horaires</h3>
+          <div class="detail-item">
+            <span class="label">Date d'entrée:</span>
+            <span class="value">{{ vehicule.date_entrer }}</span>
+          </div>
+          <div class="detail-item">
+            <span class="label">Date de sortie:</span>
+            <span class="value"
+              >{{ vehicule.date_sortie if vehicule.date_sortie else 'En cours'
+              }}</span
+            >
+          </div>
+          <div class="detail-item">
+            <span class="label">Statut:</span>
+            <span
+              class="value status-badge {{ 'present' if not vehicule.date_sortie else 'sorti' }}"
+            >
+              {{ 'Présent' if not vehicule.date_sortie else 'Sorti' }}
+            </span>
+          </div>
+          {% if vehicule.date_sortie or is_exited %}
+          <div class="detail-item">
+            <span class="label">Durée totale:</span>
+            <span class="value duration-badge" id="duration-display">
+              {% if is_exited %} {% if vehicule.duree_jours > 0 %}{{
+              vehicule.duree_jours }}j{% endif %} {% if vehicule.duree_heures >
+              0 %}{{ vehicule.duree_heures }}h{% endif %} {% if
+              vehicule.duree_minutes > 0 %}{{ vehicule.duree_minutes }}m{% endif
+              %} {% if vehicule.duree_secondes > 0 %}{{ vehicule.duree_secondes
+              }}s{% endif %} {% else %} {{ vehicule.duration if
+              vehicule.duration else 'Calcul en cours...' }} {% endif %}
+            </span>
+          </div>
+          <div class="detail-item">
+            <span class="label">Montant à payer:</span>
+            <span class="value amount-badge" id="amount-display">
+              {% if is_exited %} {{ "%.2f"|format(vehicule.montant_total) }} DH
+              {% else %} {{ vehicule.amount if vehicule.amount else 'Calcul en
+              cours...' }} {% endif %}
+            </span>
+          </div>
+          {% else %}
+          <div class="detail-item">
+            <span class="label">Temps écoulé:</span>
+            <span class="value duration-badge" id="elapsed-time">
+              Calcul en cours...
+            </span>
+          </div>
+          <div class="detail-item">
+            <span class="label">Montant estimé:</span>
+            <span class="value amount-badge" id="estimated-amount">
+              Calcul en cours...
+            </span>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Variables globales pour les calculs
+  const entryDate = new Date("{{ vehicule.date_entrer }}");
+  const exitDate = "{{ vehicule.date_sortie }}"
+    ? new Date("{{ vehicule.date_sortie }}")
+    : null;
+  const isExited = "{{ vehicule.date_sortie }}" ? true : false;
+  const isFromLog = "{{ is_exited }}" ? true : false;
+
+  // Tarif par minute (en dirhams)
+  const TARIFF_PER_MINUTE = 0.5; // 30 DH par heure = 0.5 DH par minute
+
+  function formatDuration(milliseconds) {
+    const seconds = Math.floor(milliseconds / 1000);
+    const minutes = Math.floor(seconds / 60);
+    const hours = Math.floor(minutes / 60);
+    const days = Math.floor(hours / 24);
+
+    const remainingSeconds = seconds % 60;
+    const remainingMinutes = minutes % 60;
+    const remainingHours = hours % 24;
+
+    if (days > 0) {
+      return `${days}j ${remainingHours
+        .toString()
+        .padStart(2, "0")}h ${remainingMinutes
+        .toString()
+        .padStart(2, "0")}m ${remainingSeconds.toString().padStart(2, "0")}s`;
+    } else if (hours > 0) {
+      return `${remainingHours}h ${remainingMinutes
+        .toString()
+        .padStart(2, "0")}m ${remainingSeconds.toString().padStart(2, "0")}s`;
+    } else if (minutes > 0) {
+      return `${remainingMinutes}m ${remainingSeconds
+        .toString()
+        .padStart(2, "0")}s`;
+    } else {
+      return `${remainingSeconds}s`;
+    }
+  }
+
+  function calculateAmount(durationMs) {
+    const totalMinutes = Math.ceil(durationMs / (1000 * 60));
+    const amount = totalMinutes * TARIFF_PER_MINUTE;
+    return amount;
+  }
+
+  function updateCalculations() {
+    const now = new Date();
+    const endDate = exitDate || now;
+    const durationMs = endDate - entryDate;
+
+    const duration = formatDuration(durationMs);
+    const amount = calculateAmount(durationMs);
+
+    if (isExited) {
+      // Véhicule déjà sorti
+      const durationElement = document.getElementById("duration-display");
+      const amountElement = document.getElementById("amount-display");
+      if (durationElement) durationElement.textContent = duration;
+      if (amountElement) {
+        const totalMinutes = Math.ceil(durationMs / (1000 * 60));
+        amountElement.textContent = `${amount.toFixed(
+          2
+        )} DH (${totalMinutes} min × ${TARIFF_PER_MINUTE} DH/min)`;
+      }
+    } else {
+      // Véhicule encore présent
+      const elapsedElement = document.getElementById("elapsed-time");
+      const estimatedElement = document.getElementById("estimated-amount");
+      if (elapsedElement) elapsedElement.textContent = duration;
+      if (estimatedElement) {
+        const totalMinutes = Math.ceil(durationMs / (1000 * 60));
+        estimatedElement.textContent = `${amount.toFixed(
+          2
+        )} DH (${totalMinutes} min × ${TARIFF_PER_MINUTE} DH/min)`;
+      }
+    }
+  }
+
+  // Mettre à jour les calculs toutes les secondes si le véhicule est encore présent
+  let calculationInterval;
+  if (!isExited && !isFromLog) {
+    updateCalculations();
+    calculationInterval = setInterval(updateCalculations, 1000);
+  } else {
+    updateCalculations();
+  }
+
+  // Fonction pour afficher les alertes stylées
+  function showAlert(message, type = "info") {
+    const alertDiv = document.createElement("div");
+    alertDiv.className = `alert alert-${type}`;
+    alertDiv.innerHTML = `
+      <span class="alert-close" onclick="closeAlert(this.parentElement)">&times;</span>
+      <i class="fas fa-${
+        type === "success"
+          ? "check-circle"
+          : type === "error"
+          ? "times-circle"
+          : type === "warning"
+          ? "exclamation-triangle"
+          : "info-circle"
+      }"></i>
+      ${message}
+    `;
+
+    document.body.appendChild(alertDiv);
+
+    // Animation d'entrée
+    setTimeout(() => {
+      alertDiv.classList.add("show");
+    }, 100);
+
+    // Auto-fermeture après 5 secondes
+    setTimeout(() => {
+      closeAlert(alertDiv);
+    }, 5000);
+  }
+
+  // Fonction pour fermer les alertes
+  function closeAlert(alertElement) {
+    if (typeof alertElement === "string") {
+      alertElement = document.getElementById(alertElement);
+    }
+    alertElement.classList.remove("show");
+    setTimeout(() => {
+      if (alertElement.parentElement) {
+        alertElement.parentElement.removeChild(alertElement);
+      }
+    }, 300);
+  }
+
+  function registerExit() {
+    if (
+      confirm("Êtes-vous sûr de vouloir enregistrer la sortie de ce véhicule ?")
+    ) {
+      // Arrêter le calcul en temps réel
+      if (calculationInterval) {
+        clearInterval(calculationInterval);
+      }
+
+      const vehiculeId = "{{ vehicule.id_vehicule }}";
+
+      fetch(`/register_exit/${vehiculeId}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.success) {
+            showAlert(
+              "✅ Sortie enregistrée et véhicule supprimé avec succès !",
+              "success"
+            );
+            setTimeout(() => {
+              window.location.href = "/log"; // Rediriger vers la page log
+            }, 2000);
+          } else {
+            showAlert("❌ Erreur: " + data.message, "error");
+          }
+        })
+        .catch((error) => {
+          showAlert(
+            "❌ Erreur de connexion lors de l'enregistrement de la sortie",
+            "error"
+          );
+        });
+    }
+  }
+
+  function generateExitTicket() {
+    // Arrêter le calcul en temps réel si actif
+    if (calculationInterval) {
+      clearInterval(calculationInterval);
+    }
+
+    const vehiculeId = "{{ vehicule.id_vehicule }}";
+
+    fetch(`/generate_exit_ticket/${vehiculeId}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => response.blob())
+      .then((blob) => {
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `ticket_sortie_{{ vehicule.matricule }}_${new Date()
+          .toISOString()
+          .slice(0, 10)}.txt`;
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+        document.body.removeChild(a);
+
+        showAlert(
+          "✅ Ticket de sortie généré et téléchargé avec succès !",
+          "success"
+        );
+      })
+      .catch((error) => {
+        showAlert(
+          "❌ Erreur lors de la génération du ticket de sortie",
+          "error"
+        );
+      });
+  }
+
+  function editVehicle() {
+    // Logique pour modifier le véhicule
+    alert("Fonction de modification à implémenter");
+  }
+</script>
+{% endblock %}

@@ -1,0 +1,401 @@
+{% extends 'base.html' %} {% block head %}
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='dashboard.css') }}"
+/>
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='settings.css') }}"
+/>
+{% endblock %} {% block content %}
+<div class="dashboard">
+  <div class="sidebar">
+    <div class="sideside">
+      <a href="/dashboard" title="Dashboard">
+        <i class="fas fa-tachometer-alt"></i>
+        <span>Dashboard</span>
+      </a>
+      <a href="/parking" title="Parking">
+        <i class="fas fa-parking"></i>
+        <span>Parking</span>
+      </a>
+      <a href="/log" title="Log">
+        <i class="fas fa-clipboard-list"></i>
+        <span>Log</span>
+      </a>
+      <a href="/camera" title="Caméra">
+        <i class="fas fa-video"></i>
+        <span>Caméra</span>
+      </a>
+      <a href="/settings" title="Settings" class="active">
+        <i class="fas fa-cog"></i>
+        <span>Settings</span>
+      </a>
+      <a href="/logout" title="Logout">
+        <i class="fas fa-sign-out-alt"></i>
+        <span>Logout</span>
+      </a>
+      <img src="/static/images/admin.png" alt="" class="admin-img" />
+    </div>
+  </div>
+  <div class="main-content">
+    <h1>Paramètres de l'Application</h1>
+
+    <!-- Messages flash -->
+    {% with messages = get_flashed_messages(with_categories=true) %} {% if
+    messages %} {% for category, message in messages %}
+    <div class="alert alert-{{ category }}">
+      {{ message }}
+      <button
+        type="button"
+        class="close-btn"
+        onclick="this.parentElement.remove()"
+      >
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    {% endfor %} {% endif %} {% endwith %}
+
+    <!-- Paramètres Généraux -->
+    <div class="settings-section">
+      <h3><i class="fas fa-cogs"></i> Paramètres Généraux</h3>
+      <div class="settings-grid">
+        <div class="setting-card">
+          <h4>Informations du Parking</h4>
+          <form method="POST" action="/settings/general">
+            <div class="form-group">
+              <label>Nom du Parking</label>
+              <input
+                type="text"
+                name="parking_name"
+                value="{{ settings.parking_name }}"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label>Nombre de Places</label>
+              <input
+                type="number"
+                name="total_places"
+                value="{{ settings.total_places }}"
+                min="1"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label>Prix par Heure (€)</label>
+              <input
+                type="number"
+                name="price_per_hour"
+                value="{{ settings.price_per_hour }}"
+                min="0"
+                step="0.01"
+                required
+              />
+            </div>
+            <button type="submit" class="btn-primary">
+              <i class="fas fa-save"></i> Sauvegarder
+            </button>
+          </form>
+        </div>
+
+        <div class="setting-card">
+          <h4>Configuration Système</h4>
+          <form method="POST" action="/settings/system">
+            <div class="form-group">
+              <label>Durée de Session (minutes)</label>
+              <input
+                type="number"
+                name="session_timeout"
+                value="{{ settings.session_timeout }}"
+                min="5"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label>Mode Maintenance</label>
+              <select name="maintenance_mode">
+                <option
+                  value="0"
+                  {%
+                  if
+                  not
+                  settings.maintenance_mode
+                  %}selected{%
+                  endif
+                  %}
+                >
+                  Désactivé
+                </option>
+                <option
+                  value="1"
+                  {%
+                  if
+                  settings.maintenance_mode
+                  %}selected{%
+                  endif
+                  %}
+                >
+                  Activé
+                </option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Notifications Email</label>
+              <select name="email_notifications">
+                <option
+                  value="1"
+                  {%
+                  if
+                  settings.email_notifications
+                  %}selected{%
+                  endif
+                  %}
+                >
+                  Activées
+                </option>
+                <option
+                  value="0"
+                  {%
+                  if
+                  not
+                  settings.email_notifications
+                  %}selected{%
+                  endif
+                  %}
+                >
+                  Désactivées
+                </option>
+              </select>
+            </div>
+            <button type="submit" class="btn-primary">
+              <i class="fas fa-save"></i> Sauvegarder
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Changement de Mot de Passe -->
+    <div class="settings-section">
+      <h3><i class="fas fa-key"></i> Changement de Mot de Passe</h3>
+      <div class="settings-grid">
+        <div class="setting-card">
+          <h4>Modifier le Mot de Passe</h4>
+          <form method="POST" action="/settings/password">
+            <div class="form-group">
+              <label>Mot de Passe Actuel</label>
+              <input type="password" name="current_password" required />
+            </div>
+            <div class="form-group">
+              <label>Nouveau Mot de Passe</label>
+              <input
+                type="password"
+                name="new_password"
+                required
+                minlength="6"
+              />
+            </div>
+            <div class="form-group">
+              <label>Confirmer le Nouveau Mot de Passe</label>
+              <input
+                type="password"
+                name="confirm_password"
+                required
+                minlength="6"
+              />
+            </div>
+            <button type="submit" class="btn-warning">
+              <i class="fas fa-key"></i> Changer le Mot de Passe
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Gestion des Admins -->
+    <div class="settings-section">
+      <h3><i class="fas fa-users"></i> Gestion des Administrateurs</h3>
+
+      <!-- Liste des Admins -->
+      <div class="admins-list">
+        <h4>Administrateurs Actuels</h4>
+        <div class="table-container">
+          <table class="admins-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Nom</th>
+                <th>Prénom</th>
+                <th>Email</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for admin in admins %}
+              <tr>
+                <td>{{ admin.id }}</td>
+                <td>{{ admin.nom }}</td>
+                <td>{{ admin.prenom }}</td>
+                <td>{{ admin.email }}</td>
+                <td>
+                  {% if admin.id != current_admin.id %}
+                  <button
+                    class="btn-danger btn-sm"
+                    onclick="deleteAdmin({{ admin.id }})"
+                  >
+                    <i class="fas fa-trash"></i>
+                  </button>
+                  {% else %}
+                  <span class="current-user">Vous</span>
+                  {% endif %}
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Ajouter un Admin -->
+      <div class="settings-grid">
+        <div class="setting-card">
+          <h4>Ajouter un Nouvel Administrateur</h4>
+          <form method="POST" action="/settings/add-admin">
+            <div class="form-group">
+              <label>Nom</label>
+              <input type="text" name="nom" required />
+            </div>
+            <div class="form-group">
+              <label>Prénom</label>
+              <input type="text" name="prenom" required />
+            </div>
+            <div class="form-group">
+              <label>Email</label>
+              <input type="email" name="email" required />
+            </div>
+            <div class="form-group">
+              <label>Mot de Passe</label>
+              <input type="password" name="password" required minlength="6" />
+            </div>
+            <div class="form-group">
+              <label>Confirmer le Mot de Passe</label>
+              <input
+                type="password"
+                name="confirm_password"
+                required
+                minlength="6"
+              />
+            </div>
+            <button type="submit" class="btn-success">
+              <i class="fas fa-user-plus"></i> Ajouter l'Admin
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Maintenance Système -->
+    <div class="settings-section">
+      <h3><i class="fas fa-tools"></i> Maintenance Système</h3>
+      <div class="settings-grid">
+        <div class="setting-card">
+          <h4>Nettoyage des Tables</h4>
+          <div class="info-box">
+            <p>
+              <strong>⚠️ Attention :</strong> Cette action va nettoyer les
+              données suivantes :
+            </p>
+            <ul>
+              <li>
+                • Table <code>vehicule</code> (véhicules actuels supprimés)
+              </li>
+              <li>• Table <code>tickets</code> (tickets actuels supprimés)</li>
+              <li>
+                • Table <code>places</code> (remise à LIBRE, 20 places
+                maintenues)
+              </li>
+            </ul>
+            <p>
+              <strong>✅ Préservé :</strong> Table
+              <code>log_vehicules</code> (historique complet)
+            </p>
+            <p>
+              <strong>🅿️ Places :</strong> Toujours 20 places maintenues dans le
+              parking
+            </p>
+            <p>
+              <strong>🕐 Nettoyage automatique :</strong> Chaque jour à minuit
+            </p>
+          </div>
+          <button type="button" class="btn-warning" onclick="manualCleanup()">
+            <i class="fas fa-broom"></i> Nettoyer Maintenant
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function deleteAdmin(adminId) {
+    if (confirm("Êtes-vous sûr de vouloir supprimer cet administrateur ?")) {
+      fetch(`/settings/delete-admin/${adminId}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.success) {
+            location.reload();
+          } else {
+            alert("Erreur: " + data.message);
+          }
+        })
+        .catch((error) => {
+          alert("Erreur lors de la suppression");
+        });
+    }
+  }
+
+  function manualCleanup() {
+    if (
+      confirm(
+        "⚠️ ATTENTION : Cette action va vider toutes les tables actuelles (vehicule, tickets, places).\n\nL'historique dans log_vehicules sera préservé.\n\nÊtes-vous sûr de vouloir continuer ?"
+      )
+    ) {
+      fetch("/admin/cleanup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.success) {
+            alert(
+              "✅ Nettoyage effectué avec succès !\n\nLes tables ont été vidées et les places libérées.\nL'historique est préservé dans log_vehicules."
+            );
+            location.reload();
+          } else {
+            alert("❌ Erreur lors du nettoyage : " + data.message);
+          }
+        })
+        .catch((error) => {
+          alert("❌ Erreur de connexion lors du nettoyage");
+        });
+    }
+  }
+
+  // Auto-hide alerts after 5 seconds
+  setTimeout(function () {
+    const alerts = document.querySelectorAll(".alert");
+    alerts.forEach((alert) => {
+      alert.style.opacity = "0";
+      setTimeout(() => alert.remove(), 300);
+    });
+  }, 5000);
+</script>
+{% endblock %}

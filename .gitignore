@@ -1,0 +1,19 @@
+# Environnement virtuel
+env/
+venv/
+.venv/
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.Python
+*.so
+.env
+.venv
+
+# IDE / OS
+.idea/
+.DS_Store
+*.swp
+*.swo
